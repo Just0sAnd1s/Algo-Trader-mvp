@@ -29,7 +29,11 @@ Provided tools:
    ```
    python run.py --mode live
    ```
-
+6. How to run the dashboard
+```
+pip install streamlit matplotlib pyyaml
+streamlit run dashboard/app.py
+```
 ## Notes
 - The code will use Alpaca market data if ALPACA keys are present, otherwise it falls back to yfinance for historical data.
 - For GitHub Actions scheduling, see `.github/workflows/run-bot.yml`.
