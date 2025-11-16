@@ -8,3 +8,7 @@ alpaca-py
 joblib
 loguru
 schedule
+pytest
+pytest-mock
+flake8
+black
