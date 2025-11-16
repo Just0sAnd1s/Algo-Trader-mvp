@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+backtrader
+yfinance
+pyyaml
+alpaca-py
+joblib
+loguru
+schedule
