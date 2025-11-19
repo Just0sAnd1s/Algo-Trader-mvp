@@ -17,8 +17,12 @@ def macd_signal(df, fast=12, slow=26, signal_period=9):
     macd_line, signal_line, hist = macd(df['close'], fast, slow, signal_period)
     if len(macd_line) < 2:
         return 'HOLD'
-    if macd_line.iloc[-1] > signal_line.iloc[-1] and macd_line.iloc[-2] <= signal_line.iloc[-2]:
+    if (macd_line.iloc[-1].item() > signal_line.iloc[-1].item()) and (macd_line.iloc[-2].item() <= signal_line.iloc[-2].item()):
         return 'BUY'
-    if macd_line.iloc[-1] < signal_line.iloc[-1] and macd_line.iloc[-2] >= signal_line.iloc[-2]:
+    # OLD CODE : CAUSES "ValueError: The truth value of a Series is ambiguous" 
+    #if macd_line.iloc[-1] > signal_line.iloc[-1] and macd_line.iloc[-2] <= signal_line.iloc[-2]:
+    #    return 'BUY'
+    # if macd_line.iloc[-1] < signal_line.iloc[-1] and macd_line.iloc[-2] >= signal_line.iloc[-2]:
+    if (macd_line.iloc[-1].item() > signal_line.iloc[-1].item()) and (macd_line.iloc[-2].item() >= signal_line.iloc[-2].item()):
         return 'SELL'
     return 'HOLD'
