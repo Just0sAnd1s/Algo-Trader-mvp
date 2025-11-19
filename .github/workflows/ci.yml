@@ -5,19 +5,41 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+permissions:
+  contents: write  # allow workflow to push formatted code
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    ...
 
+  auto-format:
+    name: Auto-format with Black (push changes to PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: build
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Black
+        run: pip install black
+
+      - name: Run Black and commit changes
+        run: |
+          black src tests
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: apply Black formatting [skip ci]" || echo "no changes to commit"
+          git push || echo "push failed"
 
     - name: Install Dependencies
       run: |
